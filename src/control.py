@@ -1,74 +1,67 @@
-# the job list
-# %%
+from src import input_data
 import logging
+import pathlib
+from src.output_data import Text_db
+
+db = Text_db(pathlib.Path('data/text.db'))
+
+logger = logging.getLogger('Control')
 
 
-class Job_list:
-    """
-    A list of jobs to be executed by the container program
-    Currently this is expected to be a list of document ids
-    to be processed by the container program. They will be
-    treated as strings, but could be integers in some cases.
+# control the max rows allowed in the db
+class Max_rows:
+    def __init__(self, max_rows: int):
+        self.max_rows = max_rows
 
-    Attributes:
-        jobs (list): A list of jobs to be executed
+    def get(self):
+        return self.max_rows
 
-    Methods:
-        add(job): Adds a job to the list
-        get_first_job(): Returns the first job in the list
-        remove(job): Removes a job from the list
-        __len__(): Returns the length of the list
-        __str__(): Returns the list as a string
-        __repr__(): Returns the list as a string
-    """
-
-    def __init__(self):
-        """
-        Initializes the job list.
-        """
-        self.jobs = []
-        self.logger = logging.getLogger(__name__)
-
-    def add(self, job: str):
-        """
-        Adds a job to the list
-        Args:
-            job (str): The job to be added
-
-        Returns:
-            None
-        """
-        self.jobs.append(job)
-
-    def get_first_job(self):
-        """
-        Returns the first job in the list,
-        and removes it from the list
-
-        Returns:
-            str: The first job in the list
-        """
-        return self.jobs.pop(0) if len(self.jobs) > 0 else None
-
-    def remove(self, job: str):
-        """
-        Removes a job from the list
-        Args:
-            job (str): The job to be removed
-
-        Returns:
-            None
-        """
-        self.jobs.remove(job)
-
-    def __len__(self):
-        return len(self.jobs)
+    def set(self, max_rows: int):
+        self.max_rows = max_rows
 
     def __str__(self):
-        return str(self.jobs)
-
-    def __repr__(self):
-        return str(self.jobs)
+        return f"Max_rows: {self.max_rows}"
 
 
-# %%
+class DB_rows:
+
+    def __init__(self, db_rows: int):
+        self.db_rows = db_rows
+
+    def get(self):
+        return self.db_rows
+
+    def set(self, db_rows: int):
+        self.db_rows = db_rows
+
+    def __str__(self):
+        return f"DB_rows: {self.db_rows}"
+
+
+# get the current number of articles in the db
+def get_num_rows(db) -> int:
+    try:
+        return db.get_num_rows()
+    except Exception as e:
+        logger.exception(f"Exception: {e}")
+        return 0
+
+
+# set the control status
+def status(db_rows: DB_rows, max_rows: Max_rows, db: Text_db) -> str:
+    try:
+        return 'fill' if db.get_num_rows() < max_rows.get() or db_rows.get() else 'ready'
+    except Exception as e:
+        logger.exception(f"Exception: {e}")
+        return 'error'
+
+
+def fill_db(db):
+    try:
+        # get the articles
+        article = input_data.random_article()
+        # insert the articles into the db
+        db.insert_article(article['pageId'], article['title'], article['text'])
+    except Exception as e:
+        logger.exception(f"Exception: {e}")
+        db.status = 'error'
