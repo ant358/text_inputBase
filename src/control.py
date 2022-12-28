@@ -38,19 +38,10 @@ class DB_rows:
         return f"DB_rows: {self.db_rows}"
 
 
-# get the current number of articles in the db
-def get_num_rows(db) -> int:
-    try:
-        return db.get_num_rows()
-    except Exception as e:
-        logger.exception(f"Exception: {e}")
-        return 0
-
-
 # set the control status
-def status(db_rows: DB_rows, max_rows: Max_rows, db: Text_db) -> str:
+def status(db_rows: DB_rows, db: Text_db) -> str:
     try:
-        return 'fill' if db.get_num_rows() < max_rows.get() or db_rows.get() else 'ready'
+        return 'filling' if db.get_num_rows() < db_rows.get() else 'ready'
     except Exception as e:
         logger.exception(f"Exception: {e}")
         return 'error'

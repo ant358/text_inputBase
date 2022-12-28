@@ -69,12 +69,16 @@ db_rows = DB_rows(1000)
 
 # fill the database
 def add_articles_to_db(db):
-    while db.get_num_rows() < db_rows.get():  # and db.get_num_rows() < max_rows.get():
-        # insert the articles into the db
-        fill_db(db)
-        # log the progress
-        logger.debug(f"DB rows: {db.get_num_rows()}")
-    logger.info(f"Database rows filled - now: {db.get_num_rows}")
+    """Fill the database to the set level"""
+    if db.get_num_rows() < max_rows.get():
+        while db.get_num_rows() < db_rows.get():
+            # insert the articles into the db
+            fill_db(db)
+            # log the progress
+            logger.debug(f"DB rows: {db.get_num_rows()}")
+        logger.info(f"Database rows filled - now: {db.get_num_rows()}")
+    else:
+        logger.info(f"Database rows at maxium - now: {db.get_num_rows()}")
 
 
 # fill the database to the set level
@@ -88,8 +92,8 @@ async def root_infomation():
     logging.info("Root requested")
     return {
         "API Root":
-            f"""This in the container ({container_name}) that manages the input text database. This
-            database acts as aource of text for the other containers."""
+            (f"This in the container ({os.getenv('CONTAINER_NAME')}) that manages the input text database.\
+             This database acts as aource of text for the other containers.")
     }
 
 
@@ -126,7 +130,7 @@ async def get_db_status():
     logging.info("Database status requested")
     return {
         "The database status is: ":
-            status(db_rows=db_rows, max_rows=max_rows, db=db)
+            status(db_rows=db_rows, db=db)
     }
 
 
@@ -134,8 +138,9 @@ async def get_db_status():
 # set the db rows
 @app.post("/set_db_rows/{rows}")
 async def set_the_max_db_rows(rows: int):
-    """Set the maxium number of rows in the database"""
+    """Set the number of rows in the database, and fill the database to that level"""
     db_rows.set(rows)
+    add_articles_to_db(db)
     logging.info(f"Set db rows to {rows}")
     return {"The total number of db rows has been set to: ": db_rows.get()}
 
