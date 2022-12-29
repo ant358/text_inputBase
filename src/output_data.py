@@ -59,3 +59,14 @@ class Text_db:
     def remove_article(self, pageId):
         with self.engine.connect() as conn:
             conn.execute('DELETE FROM articles WHERE pageId = ?', (pageId,))
+
+    # get all the pageids in the database
+    def get_all_pageids(self):
+        """Get all the pageids in the database
+
+        Returns:
+            list: list of pageids
+        """
+        with self.engine.connect() as conn:
+            self.pageids = conn.execute('SELECT pageId FROM articles')
+            return self.pageids

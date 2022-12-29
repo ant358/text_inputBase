@@ -91,8 +91,8 @@ async def root_infomation():
     """Get the root information"""
     logging.info("Root requested")
     return {
-        "API Root":
-            (f"This in the container ({os.getenv('CONTAINER_NAME')}) that manages the input text database.\
+        "API Root": (
+            f"This in the container ({os.getenv('CONTAINER_NAME')}) that manages the input text database.\
              This database acts as aource of text for the other containers.")
     }
 
@@ -128,10 +128,15 @@ async def get_num_rows_in_db():
 async def get_db_status():
     """Get the status of the database"""
     logging.info("Database status requested")
-    return {
-        "The database status is: ":
-            status(db_rows=db_rows, db=db)
-    }
+    return {"The database status is: ": status(db_rows=db_rows, db=db)}
+
+
+# return the list of pageids in the database
+@app.get("/get_pageids")
+async def get_pageids():
+    """Get the list of pageids in the database"""
+    logging.info("Pageids requested")
+    return {"pageids: ": db.get_all_pageids()}
 
 
 # INPUT routes
