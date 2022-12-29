@@ -1,6 +1,6 @@
 # %%
 from fastapi.testclient import TestClient
-from main import app, add_articles_to_db
+from main import app  # , add_articles_to_db
 
 client = TestClient(app)
 
@@ -31,7 +31,7 @@ def test_get_num_rows_in_db():
 
 # def test_add_article_to_db_from_a_page_id(pageid: str):
 #     pass
-    
+
 
 # def test_get_db_status():
 #     pass

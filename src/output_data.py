@@ -53,7 +53,7 @@ class Text_db:
         with self.engine.connect() as conn:
             self.text = conn.execute(
                 'SELECT text FROM articles WHERE pageId = ?', (pageId,)).first()
-            return self.text
+            return str(self.text[0])  # type: ignore
 
     # remove an article from the db
     def remove_article(self, pageId):
@@ -69,4 +69,4 @@ class Text_db:
         """
         with self.engine.connect() as conn:
             self.pageids = conn.execute('SELECT pageId FROM articles')
-            return self.pageids
+            return list(self.pageids.first())  # type: ignore
