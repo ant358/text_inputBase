@@ -23,6 +23,7 @@ run:
 		--env CONTAINER_NAME="Source_Text_Data_db" \
 		--env-file .env \
 		--volume $(PWD)/data:/app/data \
+		--volume $(PWD)/logs:/app/logs \
 		text_data_db
 deploy:
 	# customise to the cloud provider
