@@ -39,7 +39,7 @@ def test_get_article_text():
 
 
 def test_get_all_pageids():
-    assert test_db.get_all_pageids() == [test_article['pageId']]
+    assert test_article['pageId'] in test_db.get_all_pageids()
 
 
 def test_get_num_rows():

@@ -68,5 +68,9 @@ class Text_db:
             list: list of pageids
         """
         with self.engine.connect() as conn:
-            self.pageids = conn.execute('SELECT pageId FROM articles')
-            return list(self.pageids.first())  # type: ignore
+            result = conn.execute('SELECT pageId FROM articles')
+            # read the cursor result
+            pageIds = result.fetchall()
+            # extract the pageIds
+            self.pageids = [pageId[0] for pageId in pageIds]
+            return self.pageids  # type: ignore

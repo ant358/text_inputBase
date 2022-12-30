@@ -10,23 +10,24 @@ lint:
 	flake8 -v *.py src/*.py tests/*.py
 test:
 	# see pytest.ini for test configuration
-	python -m pytest -v --cov=src --cov=main.py tests/*.py
+	python -m pytest tests/*.py
 build:
 	# build the container
-	docker build -t fastapi-wiki .
+	docker build -t text_data_db .
 run:
 	# deploy the code
 	docker run \
-		--rm -d -p 8080:8080 \
-		--name fastapi-wiki-container \
+		-d -p 8080:8080 \
+		--name source_text_data_db \
 		-e CONTAINER_NAME \
-		--env CONTAINER_NAME="fastapi-wiki-container" \
+		--env CONTAINER_NAME="Source_Text_Data_db" \
 		--env-file .env \
-		fastapi-wiki
+		--volume $(PWD)/data:/app/data \
+		text_data_db
 deploy:
 	# customise to the cloud provider
-	build
-	run
-	push
+	# build
+	# run
+	# push
 
 all: install format lint test build run deploy
