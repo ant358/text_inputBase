@@ -1,8 +1,8 @@
-[![Makefile CI process for Github](https://github.com/ant358/ml-ops-template/actions/workflows/devops-github.yml/badge.svg)](https://github.com/ant358/ml-ops-template/actions/workflows/devops-github.yml)
+[![Makefile CI process for Github](https://github.com/ant358/text_inputBase/actions/workflows/devops-github.yml/badge.svg)](https://github.com/ant358/text_inputBase/actions/workflows/devops-github.yml)
 
-# Input Database for Tect NLP projects  
+# Input Database for Text NLP projects  
 
-Source data for the Tect NLP projects, derived from wikipedia artciles.  
+Source data for the Text NLP projects, derived from wikipedia artciles.  
 Held in a simple sqlite database.   
 There is a single table with the article page id, title and text.  
 The text is the raw text of the article.  

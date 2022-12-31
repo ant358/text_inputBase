@@ -64,7 +64,7 @@ db = Text_db(db_path)
 max_rows = Max_rows(10000)
 
 # set the db rows
-db_rows = DB_rows(1000)
+db_rows = DB_rows(10)
 
 
 # fill the database
