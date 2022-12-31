@@ -27,8 +27,8 @@ run:
 		text_data_db
 deploy:
 	# customise to the cloud provider
-	# build
-	# run
-	# push
+	# docker login
+	# docker tag text_data_db svgcant2022/text_ms:text_data_db
+	# docker push svgcant2022/text-ms:text_data_db
 
 all: install format lint test build run deploy
