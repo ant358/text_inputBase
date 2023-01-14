@@ -1,0 +1,22 @@
+version: "3.9"
+networks:
+  text_data:
+    external: true
+volumes:
+  text_data_vol:
+    external: true
+  text_data_logs:
+    external: true
+services:
+  text_db:
+    # image: svgcant2022/text-ms:text_data_db
+    image: text_data_db
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - text_data_vol:/app/data
+      - text_data_logs:/app/logs
+    environment:
+      - CONTAINER_NAME=source_text_data_db
+
