@@ -19,4 +19,6 @@ services:
       - text_data_logs:/app/logs
     environment:
       - CONTAINER_NAME=source_text_data_db
-
+    networks:
+      - text_data
+      
