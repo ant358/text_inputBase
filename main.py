@@ -117,7 +117,7 @@ async def add_article_to_db_from_a_page_id(pageid: str):
 
 # return the number of rows in the database
 @app.get("/get_num_rows")
-async def get_num_rows_in_db():
+async def get_num_rows_in_db():  # ->int: # typing is not working here
     """Get the number of rows in the database"""
     logging.info("Number of rows requested")
     return {"The number of rows in the database is: ": db.get_num_rows()}
