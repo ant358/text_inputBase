@@ -92,7 +92,8 @@ async def root_infomation():
     logging.info("Root requested")
     return {
         "API Root": (
-            (f"This in the container ({os.getenv('CONTAINER_NAME')}) that manages the input text database. This database acts as aource of text for the other containers.")
+            f"This in the container ({os.getenv('CONTAINER_NAME')}) that manages the input text database. This database acts as aource of text for the other containers."
+        )
     }
 
 
