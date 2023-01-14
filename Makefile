@@ -19,11 +19,15 @@ run:
 	docker run \
 		-d -p 8080:8080 \
 		--name source_text_data_db \
+		# pass the container name to the logging config file via env
 		-e CONTAINER_NAME \
-		--env CONTAINER_NAME="Source_Text_Data_db" \
+		--env CONTAINER_NAME="source_text_data_db" \
 		--env-file .env \
-		--volume $(PWD)/data:/app/data \
-		--volume $(PWD)/logs:/app/logs \
+		# local docker volumes
+		--volume text_data_vol:/app/data \
+		--volume text_data_logs:/app/logs \
+		# docker bridge network
+		--network text_data \
 		text_data_db
 deploy:
 	# customise to the cloud provider
